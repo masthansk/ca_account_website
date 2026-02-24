@@ -1,0 +1,276 @@
+﻿<div class="site-shell">
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      @for (item of topBarItems; track item) {
+        <span>{{ item }}</span>
+      }
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-icon">A</span>
+        <span class="brand-text">
+          <strong>Meera</strong>
+          <small>Finance Business</small>
+        </span>
+      </a>
+
+      <nav class="nav-menu" aria-label="Main Navigation">
+        @for (item of navItems; track item) {
+          <a href="#">{{ item }}</a>
+        }
+        <button class="search-btn" type="button" aria-label="Search">M</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-slider">
+      <div
+        class="hero-track"
+        [style.transform]="'translateX(-' + currentHeroIndex * 100 + '%)'"
+      >
+        @for (slide of heroSlides; track slide.title) {
+          <article class="hero-slide" [style.background-image]="'url(' + slide.image + ')'">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+              <h1>{{ slide.title }}</h1>
+              <p>{{ slide.subtitle }}</p>
+              <div class="hero-actions">
+                <a class="btn btn-green" href="#company">Our Company</a>
+                <a class="btn btn-dark" href="#callback">Get in Touch</a>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+
+      <button class="hero-nav prev" type="button" (click)="previousHeroSlide()" aria-label="Previous slide">
+        &lsaquo;
+      </button>
+      <button class="hero-nav next" type="button" (click)="nextHeroSlide()" aria-label="Next slide">
+        &rsaquo;
+      </button>
+
+      <div class="hero-dots">
+        @for (slide of heroSlides; track slide.title; let i = $index) {
+          <button
+            type="button"
+            [class.active]="i === currentHeroIndex"
+            (click)="goToHeroSlide(i)"
+            aria-label="Go to slide"
+          ></button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="highlights">
+    <div class="container highlight-grid">
+      @for (item of highlights; track item.title) {
+        <article class="highlight-card" [style.background-image]="'url(' + item.image + ')'">
+          <div class="highlight-caption">
+            <h3>{{ item.title }}</h3>
+            <span>&rsaquo;</span>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="services-section" id="services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <span class="section-line"></span>
+      <div class="services-grid">
+        @for (service of services; track service.title) {
+          <article class="service-item">
+            <span class="service-icon">{{ service.icon }}</span>
+            <div>
+              <h3>{{ service.title }}</h3>
+              <p>{{ service.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Our Projects</h2>
+          <span class="section-line"></span>
+        </div>
+        <div class="arrows">
+          <button type="button" aria-label="Previous project">&lsaquo;</button>
+          <button type="button" aria-label="Next project">&rsaquo;</button>
+        </div>
+      </div>
+      <div class="project-grid">
+        @for (project of projects; track project) {
+          <article class="project-card">
+            <img [src]="project" alt="Company project showcase" />
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="news-section" id="news">
+    <div class="container">
+      <h2 class="section-title">Latest News</h2>
+      <span class="section-line"></span>
+      <div class="news-grid">
+        @for (item of newsItems; track item.title) {
+          <article class="news-card">
+            <img [src]="item.image" alt="Finance news update" />
+            <div class="news-content">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.summary }}</p>
+              <a href="#">Read More</a>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="callback-section" id="callback">
+    <div class="container callback-grid">
+      <div class="callback-copy">
+        <h2>Get A Call Back</h2>
+        <p>
+          Share your requirement and our team will contact you with the right accounting
+          and compliance solution.
+        </p>
+      </div>
+      <form class="callback-form" [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate>
+        <div class="field">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" type="text" formControlName="fullName" />
+          @if (fieldInvalid('fullName')) {
+            <small>Name must be at least 3 characters.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" />
+          @if (fieldInvalid('email')) {
+            <small>Please enter a valid email address.</small>
+          }
+        </div>
+
+        <div class="field field-full">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="tel" formControlName="phone" />
+          @if (fieldInvalid('phone')) {
+            <small>Please enter a valid phone number.</small>
+          }
+        </div>
+
+        <div class="field field-full">
+          <label for="message">How can we help?</label>
+          <textarea id="message" rows="4" formControlName="message"></textarea>
+          @if (fieldInvalid('message')) {
+            <small>Message must be at least 10 characters.</small>
+          }
+        </div>
+
+        <button class="btn btn-green field-full" type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="company-extra" id="company">
+    <div class="container extra-grid">
+      <article class="panel">
+        <h3>Company Information</h3>
+        <p>
+          Chartered Accountant firm focused on transparent reporting, proactive tax
+          planning, and dependable statutory compliance support.
+        </p>
+        <ul>
+          <li>Head Office: Ahmedabad, Gujarat</li>
+          <li>220+ active business clients</li>
+          <li>Dedicated support for startups and SMEs</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h3>Instagram Scanner</h3>
+        <p>Scan and follow our latest updates.</p>
+        <img [src]="instagramQrImage" alt="Instagram QR Code" />
+        <a [href]="instagramProfileLink" target="_blank" rel="noopener">Follow {{ instagramHandle }}</a>
+      </article>
+
+      <article class="panel">
+        <h3>Client Information</h3>
+        <div class="client-list">
+          @for (client of clients; track client.name) {
+            <p>
+              <strong>{{ client.name }}</strong><br />
+              {{ client.segment }} | {{ client.support }}
+            </p>
+          }
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="partners-section">
+    <div class="container partners-inner">
+      <button type="button" aria-label="Previous partners">&lsaquo;</button>
+      @for (partner of partnerNames; track partner) {
+        <span>{{ partner }}</span>
+      }
+      <button type="button" aria-label="Next partners">&rsaquo;</button>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="container footer-top">
+      <div><span>@</span> support@meera.com</div>
+      <div><span>T</span> {{ whatsappNumber }}</div>
+      <div><span>L</span> C.G. Road, Ahmedabad, Gujarat, India</div>
+    </div>
+
+    <div class="container footer-grid">
+      <div>
+        <p>
+          Apex Chartered Accountants provides accounting, taxation, and compliance
+          services for modern businesses with timely, practical, and transparent support.
+        </p>
+      </div>
+
+      <div>
+        <h4>About</h4>
+        @for (link of aboutLinks; track link) {
+          <a href="#">{{ link }}</a>
+        }
+      </div>
+
+      <div>
+        <h4>Company</h4>
+        @for (link of companyLinks; track link) {
+          <a href="#">{{ link }}</a>
+        }
+      </div>
+
+      <div>
+        <h4>Quick Contact</h4>
+        <a [href]="whatsappLink" target="_blank" rel="noopener">WhatsApp Us</a>
+        <a href="#callback">Request Callback</a>
+        <a href="#services">View Services</a>
+      </div>
+    </div>
+
+    <div class="container copyright">&copy; {{ year }} {{ companyName }}. All rights reserved.</div>
+  </footer>
+
+  <a class="whatsapp-float" [href]="whatsappLink" target="_blank" rel="noopener" aria-label="Open WhatsApp chat">WA</a>
+</div>
